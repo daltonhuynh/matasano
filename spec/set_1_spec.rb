@@ -25,4 +25,20 @@ describe Set1 do
     end
   end
 
+  context "Problem #3" do
+    let(:encoded_string) { '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736' }
+
+    it "decrypts the string" do
+      Set1.decrypt_single(encoded_string).should == "Cooking MC's like a pound of bacon"
+    end
+  end
+
+  context "Problem #4" do
+    let(:encoded_string) { File.read('./spec/support/problem_4.txt') }
+
+    it "decrypts the string" do
+      puts Set1.decrypt_single(encoded_string)
+    end
+  end
+
 end

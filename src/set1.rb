@@ -27,4 +27,18 @@ module Set1
     Hex.encode r.pack('C*')
   end
 
+  def self.decrypt_single(str)
+    bytes = Hex.decode(str).bytes
+    lowercase = ('a'..'z').to_a
+    uppercase = lowercase.map(&:upcase)
+    alphabet = lowercase + uppercase
+    strings = alphabet.map do |char|
+      bytes.map{|b| b ^ char.bytes.first }.pack('C*')
+    end
+    scores = strings.map{|s| s.each_char.select{|c| (alphabet + [' ']).include?(c) }.count }
+    max_score = scores.max
+    score_pos = scores.index(max_score)
+    strings[score_pos]
+  end
+
 end
