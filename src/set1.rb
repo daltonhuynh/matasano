@@ -49,4 +49,12 @@ module Set1
     Score.best(strings)
   end
 
+  def self.encrypt_repeating(str, key)
+    repeating_cipher = key.bytes.cycle
+    xored_string = str.bytes.map do |byte|
+      byte ^ repeating_cipher.next
+    end.pack('C*')
+    Hex.encode(xored_string)
+  end
+
 end
