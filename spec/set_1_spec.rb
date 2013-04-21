@@ -34,10 +34,11 @@ describe Set1 do
   end
 
   context "Problem #4" do
-    let(:encoded_string) { File.read('./spec/support/problem_4.txt') }
-
     it "decrypts the string" do
-      puts Set1.decrypt_single(encoded_string)
+      strings = File.open('./spec/support/problem_4.txt').map do |line|
+        Set1.decrypt_single(line.strip)
+      end
+      Score.best(strings).should == "Now that the party is jumping\n"
     end
   end
 

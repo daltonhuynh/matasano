@@ -10,6 +10,20 @@ module Hex
   end
 end
 
+module Score
+  ALPHABET = begin
+    lowercase = ('a'..'z').to_a
+    uppercase = lowercase.map(&:upcase)
+    lowercase + uppercase + [' ', ',', "'"]
+  end
+
+  def self.best(strings)
+    scores = strings.map{|s| s.each_char.select{|c| ALPHABET.include?(c) }.count }
+    score_pos = scores.index(scores.max)
+    strings[score_pos]
+  end
+end
+
 module Set1
 
   def self.hex_base64(str, flip = false)
@@ -29,16 +43,10 @@ module Set1
 
   def self.decrypt_single(str)
     bytes = Hex.decode(str).bytes
-    lowercase = ('a'..'z').to_a
-    uppercase = lowercase.map(&:upcase)
-    alphabet = lowercase + uppercase
-    strings = alphabet.map do |char|
-      bytes.map{|b| b ^ char.bytes.first }.pack('C*')
+    strings = (0..255).map do |num|
+      bytes.map{|b| b ^ num }.pack('C*')
     end
-    scores = strings.map{|s| s.each_char.select{|c| (alphabet + [' ']).include?(c) }.count }
-    max_score = scores.max
-    score_pos = scores.index(max_score)
-    strings[score_pos]
+    Score.best(strings)
   end
 
 end
